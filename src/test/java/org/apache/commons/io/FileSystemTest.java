@@ -61,23 +61,26 @@ public class FileSystemTest {
         }
     }
 
-    @Test
+    @Test //Teste novo
     public void testIsReservedFileName() {
         for (final FileSystem fs : FileSystem.values()) {
-            for (final String candidate : fs.getReservedFileNames()) {
+        }
+    }
+    @Test //Teste novo
+    public void testIsReservedFileName2(FileSystem fs) {
+        for (final String candidate : fs.getReservedFileNames()) {
                 assertTrue(fs.isReservedFileName(candidate));
-            }
         }
     }
 
-    @Test
+    @Test //Teste novo - removi o print
     @EnabledOnOs(OS.WINDOWS)
     public void testIsReservedFileNameOnWindows() throws IOException {
         final FileSystem fs = FileSystem.WINDOWS;
         for (final String candidate : fs.getReservedFileNames()) {
-            // System.out.printf("Reserved %s exists: %s%n", candidate, Files.exists(Paths.get(candidate)));
-            assertTrue(fs.isReservedFileName(candidate));
-            assertTrue(fs.isReservedFileName(candidate + ".txt"), candidate);
+                assertTrue(fs.isReservedFileName(candidate));
+                assertTrue(fs.isReservedFileName(candidate + ".txt"), candidate);
+            }
         }
 
 // This can hang when trying to create files for some reserved names, but it is interesting to keep
@@ -97,20 +100,32 @@ public class FileSystemTest {
 //            assertEquals(exists, Files.exists(path), path.toString());
 //        }
     }
-
-    @Test
+    @Test //Teste novo
     public void testReplacementWithNUL() {
         for (final FileSystem fs : FileSystem.values()) {
+            fs.toLegalFileName("Test", '\0'); // Assume NUL is always illegal
+        }
+    }
+    @Test //Teste novo
+    public void testReplacementWithNUL2() {
+        for (final FileSystem fs : FileSystem.values()) {
             try {
-                fs.toLegalFileName("Test", '\0'); // Assume NUL is always illegal
+                testIsReservedFileName();
             } catch (final IllegalArgumentException iae) {
                 assertTrue(iae.getMessage().startsWith("The replacement character '\\0'"), iae.getMessage());
             }
         }
     }
 
-    @Test
+    @Test // Teste novo
     public void testSorted() {
+        for (final FileSystem fs : FileSystem.values()) {
+            final char[] chars = fs.getIllegalFileNameChars();
+            testSorted2();
+        }
+    }
+    @Test //Teste novo
+    public void testSorted2() {
         for (final FileSystem fs : FileSystem.values()) {
             final char[] chars = fs.getIllegalFileNameChars();
             for (int i = 0; i < chars.length - 1; i++) {
@@ -127,7 +142,7 @@ public class FileSystemTest {
         assertFalse(FileSystem.MAC_OSX.supportsDriveLetter());
     }
 
-    @Test
+    /*@Test Teste antigo
     public void testToLegalFileNameWindows() {
         final FileSystem fs = FileSystem.WINDOWS;
         final char replacement = '-';
@@ -144,6 +159,47 @@ public class FileSystemTest {
         for (char i = 'A'; i < 'Z'; i++) {
             assertEquals(i, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
         }
+        for (char i = '0'; i < '9'; i++) {
+            assertEquals(i, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
+        }
+    }*/
+    @Test
+    public void testToLegalFileNameWindows2() {
+        final FileSystem fs = FileSystem.WINDOWS;
+        final char replacement = '-';
+        for (char i = 0; i < 32; i++) {
+            assertEquals(replacement, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
+        }
+    }
+    @Test
+    public void testToLegalFileNameWindows3() {
+        final FileSystem fs = FileSystem.WINDOWS;
+        final char replacement = '-';
+        final char[] illegal = { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
+        for (char i = 0; i < illegal.length; i++) {
+            assertEquals(replacement, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
+        }
+    }
+    @Test
+    public void testToLegalFileNameWindows4() {
+        final FileSystem fs = FileSystem.WINDOWS;
+        final char replacement = '-';
+        for (char i = 'a'; i < 'z'; i++) {
+            assertEquals(i, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
+        }
+    }
+    @Test
+    public void testToLegalFileNameWindows5() {
+        final FileSystem fs = FileSystem.WINDOWS;
+        final char replacement = '-';
+        for (char i = 'A'; i < 'Z'; i++) {
+            assertEquals(i, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
+        }
+    }
+    @Test
+    public void testToLegalFileNameWindows6() {
+        final FileSystem fs = FileSystem.WINDOWS;
+        final char replacement = '-';
         for (char i = '0'; i < '9'; i++) {
             assertEquals(i, fs.toLegalFileName(String.valueOf(i), replacement).charAt(0));
         }

@@ -104,20 +104,19 @@ public class FileCleaningTrackerTest extends AbstractTempDirTest {
     @Test
     public void testFileCleanerDirectory() throws Exception {
         TestUtils.createFile(testFile, 100);
-        assertTrue(testFile.exists());
-        assertTrue(tempDirFile.exists());
+        assertTrue("checks if the function return exists true", testFile.exists());
+        assertTrue("checks if the function return exists true", tempDirFile.exists());
 
         Object obj = new Object();
-        assertEquals(0, theInstance.getTrackCount());
+        assertEquals("Checks if the trackCount is equal to 0", 0, theInstance.getTrackCount());
         theInstance.track(tempDirFile, obj);
-        assertEquals(1, theInstance.getTrackCount());
+        assertEquals("Checks if the trackCount is equal to 1", 1, theInstance.getTrackCount());
 
         obj = null;
 
         waitUntilTrackCount();
-
-        assertEquals(0, theInstance.getTrackCount());
-        assertTrue(testFile.exists());  // not deleted, as dir not empty
+        assertEquals("Checks if the trackCount is equal to 0", 0, theInstance.getTrackCount());
+        assertTrue("checks if the function return exists true", testFile.exists());   // not deleted, as dir not empty
         assertTrue(testFile.getParentFile().exists());  // not deleted, as dir not empty
     }
 

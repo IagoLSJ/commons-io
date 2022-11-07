@@ -186,6 +186,10 @@ public class CharSequenceReaderTest {
             assertEquals(-1, reader.read(chars));
         }
         Arrays.fill(chars, NONE);
+    }
+
+    private void testReadCharArrayPortion1(final CharSequence charSequence) throws IOException {
+        final char[] chars = new char[10];
         try (Reader reader = new CharSequenceReader(charSequence, 1, 5)) {
             assertEquals(2, reader.read(chars, 3, 2));
             checkArray(new char[] { NONE, NONE, NONE, 'o', 'o', NONE }, chars);
@@ -193,39 +197,73 @@ public class CharSequenceReaderTest {
             checkArray(new char[] { 'B', 'a', NONE, 'o', 'o', NONE }, chars);
             assertEquals(-1, reader.read(chars));
         }
+        Arrays.fill(chars, NONE);
     }
 
     @Test
     public void testReady() throws IOException {
         final Reader reader = new CharSequenceReader("FooBar");
         assertTrue(reader.ready());
+    }
+
+    public void testReady1() throws IOException {
+        final Reader reader = new CharSequenceReader("FooBar");
         reader.skip(3);
         assertTrue(reader.ready());
         checkRead(reader, "Bar");
         assertFalse(reader.ready());
+    }
+    public void testReady2() throws IOException {
+        final Reader reader = new CharSequenceReader("FooBar");
         reader.reset();
         assertTrue(reader.ready());
+    }
+    public void testReady3() throws IOException {
+        final Reader reader = new CharSequenceReader("FooBar");
         reader.skip(2);
         assertTrue(reader.ready());
         reader.skip(10);
         assertFalse(reader.ready());
+    }
+
+    public void testReady4() throws IOException {
+        final Readeer reader = new CharSequenceReade("Foobar");
         reader.close();
         assertTrue(reader.ready());
         reader.skip(20);
         assertFalse(reader.ready());
-
+    }
+    
+    public void testReady5() throws IOException { 
         final Reader subReader = new CharSequenceReader("xFooBarx", 1, 7);
         assertTrue(subReader.ready());
+        
+    }
+
+    public void testReady6() throws IOException { 
+        final Reader subReader = new CharSequenceReader("xFooBarx", 1, 7);
         subReader.skip(3);
         assertTrue(subReader.ready());
         checkRead(subReader, "Bar");
         assertFalse(subReader.ready());
+    }
+
+    public void testReady7() throws IOException { 
+        final Reader subReader = new CharSequenceReader("xFooBarx", 1, 7);        
         subReader.reset();
         assertTrue(subReader.ready());
+    }
+
+    public void testReady8() throws IOException { 
+        final Reader subReader = new CharSequenceReader("xFooBarx", 1, 7);        
         subReader.skip(2);
         assertTrue(subReader.ready());
         subReader.skip(10);
         assertFalse(subReader.ready());
+    }
+    
+    public void testReady9() throws IOException { 
+        final Reader subReader = new CharSequenceReader("xFooBarx", 1, 7);        
         subReader.close();
         assertTrue(subReader.ready());
         subReader.skip(20);

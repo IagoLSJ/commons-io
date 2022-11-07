@@ -310,6 +310,14 @@ public class CharSequenceInputStreamTest {
             assertEquals('t', r.read(), csName);
             assertEquals(-1, r.read(), csName);
             r.reset();
+            r.reset();
+        }
+    }
+
+    private void testMarkReset1(final String csName) throws Exception {
+        try (InputStream r = new CharSequenceInputStream("test", csName)) {
+            assertEquals(2, r.skip(2));
+            r.mark(0);
             assertEquals('s', r.read(), csName);
             assertEquals('t', r.read(), csName);
             assertEquals(-1, r.read(), csName);

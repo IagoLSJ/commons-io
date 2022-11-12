@@ -41,7 +41,7 @@
  +======================================================================+
 --->
 
-Trabalho de  Qualida de Software
+Trabalho de Qualidade de Software
 ===================
 Universidade Federal do Ceará - Campus de Quixadá  
 Curso: Engenharia de Software  

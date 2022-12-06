@@ -40,6 +40,24 @@
  |                                                                      |
  +======================================================================+
 --->
+
+Trabalho de Qualidade de Software
+===================
+Universidade Federal do Ceará - Campus de Quixadá  
+Curso: Engenharia de Software  
+Disciplina: Qualiade de Software - 2022.2  
+
+Refatoração de códigos de teste - Test Smells
+
+Equipe: Edvaldo Oliveira, Henrique e Iago
+
+[Diarios de Refatoração](./diarios)
+
+
+
+
+
+
 Apache Commons IO
 ===================
 
